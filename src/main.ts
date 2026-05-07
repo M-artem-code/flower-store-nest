@@ -16,8 +16,9 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);
 
-  await app.listen(3000);
-  console.log('Application running on http://localhost:3000');
+  const port = Number(process.env.PORT) || 3000;
+  await app.listen(port);
+  console.log(`Application running on http://localhost:${port}/api`);
 
   const microserviceApp =
     await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
