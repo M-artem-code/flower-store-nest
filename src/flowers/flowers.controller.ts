@@ -13,7 +13,6 @@ import { AuthGuard } from '../conceptions/guard';
 import { LoggingInterceptor } from '../conceptions/interceptor';
 import { FlowersCreateDTO } from './flowers.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateFlowersGpaphqlInput } from 'src/flowers-gpaphql/dto/create-flowers-gpaphql.input';
 
 @Controller('flowers')
 @ApiTags('flowers')

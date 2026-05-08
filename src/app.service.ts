@@ -1,23 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import {
-  ClientProxy,
-  ClientProxyFactory,
-  Transport,
-} from '@nestjs/microservices';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class AppService {
-  private client: ClientProxy;
-
-  constructor() {
-    this.client = ClientProxyFactory.create({
-      transport: Transport.TCP,
-      options: {
-        host: 'localhost',
-        port: 3001,
-      },
-    });
-  }
+  constructor(@Inject('ORDER_SERVICE') private readonly client: ClientProxy) {}
 
   sendMessage() {
     this.client.emit('message', 'New order #2342!');

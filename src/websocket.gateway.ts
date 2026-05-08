@@ -14,7 +14,7 @@ export class ChatGateway
 {
   @WebSocketServer() server: Server;
 
-  afterInit(server: Server) {
+  afterInit() {
     console.log('WebSocketGateway initialized');
   }
 

@@ -32,4 +32,7 @@ async function bootstrap() {
   await microserviceApp.listen();
   console.log('Microservice is running on: http://localhost:3001');
 }
-bootstrap();
+bootstrap().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
