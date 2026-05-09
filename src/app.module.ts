@@ -11,6 +11,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { FlowersGpaphqlModule } from './flowers-gpaphql/flowers-gpaphql.module';
 import { ChatGateway } from './websocket.gateway';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ChatGateway } from './websocket.gateway';
       isGlobal: true,
     }),
     FlowersModule,
+    UsersModule,
     MicroserviceModule,
     ClientsModule.register([
       {

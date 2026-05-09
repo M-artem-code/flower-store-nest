@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { FlowersGpaphqlResolver } from './flowers-gpaphql.resolver';
-import { FlowersService } from 'src/flowers/flowers.service';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { FlowersModule } from 'src/flowers/flowers.module';
 
 @Module({
-  providers: [FlowersGpaphqlResolver, FlowersService, PrismaService],
+  imports: [FlowersModule],
+  providers: [FlowersGpaphqlResolver],
 })
 export class FlowersGpaphqlModule {}

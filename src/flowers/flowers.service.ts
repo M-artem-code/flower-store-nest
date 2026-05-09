@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { FlowersCreateDTO } from './flowers.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { FlowersCreateDTO, FlowersUpdateDTO } from './flowers.dto';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -36,6 +36,33 @@ export class FlowersService {
   create(dto: FlowersCreateDTO) {
     return this.prisma.flower.create({
       data: dto,
+    });
+  }
+
+  async findOne(id: number) {
+    const flower = await this.prisma.flower.findUnique({
+      where: { id },
+    });
+
+    if (!flower) throw new NotFoundException('flower not found');
+
+    return flower;
+  }
+
+  async update(id: number, dto: FlowersUpdateDTO) {
+    await this.findOne(id);
+
+    return this.prisma.flower.update({
+      where: { id },
+      data: dto,
+    });
+  }
+
+  async remove(id: number) {
+    await this.findOne(id);
+
+    return this.prisma.flower.delete({
+      where: { id },
     });
   }
 }

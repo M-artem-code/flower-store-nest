@@ -1,7 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  ParseIntPipe,
+  Patch,
   Post,
   UseGuards,
   UseInterceptors,
@@ -11,7 +15,7 @@ import {
 import { FlowersService } from './flowers.service';
 import { AuthGuard } from '../conceptions/guard';
 import { LoggingInterceptor } from '../conceptions/interceptor';
-import { FlowersCreateDTO } from './flowers.dto';
+import { FlowersCreateDTO, FlowersUpdateDTO } from './flowers.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('flowers')
@@ -40,6 +44,30 @@ export class FlowersController {
     return this.flowersService.create(dto);
   }
 
+  @Get(':id')
+  @UseGuards(AuthGuard)
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.flowersService.findOne(id);
+  }
+
+  @Patch(':id')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  @UseGuards(AuthGuard)
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: FlowersUpdateDTO) {
+    return this.flowersService.update(id, dto);
+  }
+
+  @Delete(':id')
+  @UseGuards(AuthGuard)
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.flowersService.remove(id);
+  }
+
   @Get('new-order')
-  newOrder() {}
+  newOrder() {
+    return {
+      status: 'ok',
+      message: 'new-order endpoint stub',
+    };
+  }
 }

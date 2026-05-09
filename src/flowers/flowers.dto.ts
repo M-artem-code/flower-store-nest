@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class FlowersCreateDTO {
   @IsString({
@@ -24,6 +24,22 @@ export class FlowersCreateDTO {
     required: true,
   })
   price!: number;
+}
+
+export class FlowersUpdateDTO {
+  @IsOptional()
+  @IsString({
+    message: 'Name must be a string',
+  })
+  name?: string;
+
+  @IsOptional()
+  @IsString()
+  color?: string;
+
+  @IsOptional()
+  @IsNumber()
+  price?: number;
 }
 
 export type TFlowersUpdateDTO = Partial<FlowersCreateDTO>;
