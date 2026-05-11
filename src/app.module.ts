@@ -12,6 +12,7 @@ import { join } from 'path';
 import { FlowersGpaphqlModule } from './flowers-gpaphql/flowers-gpaphql.module';
 import { ChatGateway } from './websocket.gateway';
 import { UsersModule } from './users/users.module';
+import { StatsModule } from './stats/stats.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UsersModule } from './users/users.module';
     }),
     FlowersModule,
     UsersModule,
+    StatsModule,
     MicroserviceModule,
     ClientsModule.register([
       {

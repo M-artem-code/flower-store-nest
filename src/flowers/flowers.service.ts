@@ -65,4 +65,45 @@ export class FlowersService {
       where: { id },
     });
   }
+
+  search(params: {
+    name?: string;
+    color?: string;
+    minPrice?: number;
+    maxPrice?: number;
+  }) {
+    const { name, color, minPrice, maxPrice } = params;
+
+    return this.prisma.flower.findMany({
+      where: {
+        ...(name
+          ? {
+              name: {
+                contains: name,
+                mode: 'insensitive',
+              },
+            }
+          : {}),
+        ...(color
+          ? {
+              color: {
+                equals: color,
+                mode: 'insensitive',
+              },
+            }
+          : {}),
+        ...(minPrice !== undefined || maxPrice !== undefined
+          ? {
+              price: {
+                ...(minPrice !== undefined ? { gte: minPrice } : {}),
+                ...(maxPrice !== undefined ? { lte: maxPrice } : {}),
+              },
+            }
+          : {}),
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
 }
