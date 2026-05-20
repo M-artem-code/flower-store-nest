@@ -80,12 +80,4 @@ export class FlowersController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.flowersService.remove(id);
   }
-
-  @Get('new-order')
-  newOrder() {
-    return {
-      status: 'ok',
-      message: 'new-order endpoint stub',
-    };
-  }
 }

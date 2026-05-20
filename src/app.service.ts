@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Injectable } from '@nestjs/common';
+import { OrderEventsService } from './orders/order-events.service';
 
 @Injectable()
 export class AppService {
-  constructor(@Inject('ORDER_SERVICE') private readonly client: ClientProxy) {}
+  constructor(private readonly orderEvents: OrderEventsService) {}
 
   sendMessage() {
-    this.client.emit('message', 'New order #2342!');
+    this.orderEvents.emitLegacyMessage('New order #2342!');
   }
 }

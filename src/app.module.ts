@@ -5,7 +5,6 @@ import { LoggerMiddleware } from './conceptions/middleware';
 import { MicroserviceModule } from './microservice/microservice.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
@@ -13,6 +12,7 @@ import { FlowersGpaphqlModule } from './flowers-gpaphql/flowers-gpaphql.module';
 import { ChatGateway } from './websocket.gateway';
 import { UsersModule } from './users/users.module';
 import { StatsModule } from './stats/stats.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -22,17 +22,8 @@ import { StatsModule } from './stats/stats.module';
     FlowersModule,
     UsersModule,
     StatsModule,
+    OrdersModule,
     MicroserviceModule,
-    ClientsModule.register([
-      {
-        name: 'ORDER_SERVICE',
-        transport: Transport.TCP,
-        options: {
-          host: 'localhost',
-          port: 3001,
-        },
-      },
-    ]),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),

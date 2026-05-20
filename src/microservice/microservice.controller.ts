@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { EventPattern, Payload } from '@nestjs/microservices';
 import { MicroserviceService } from './microservice.service';
+import { OrderEventPayload } from '../orders/order-events.types';
 
 @Controller()
 export class MicroserviceController {
@@ -31,7 +32,12 @@ export class MicroserviceController {
   //   return this.microserviceService.remove(id);
   // }
   @EventPattern('message')
-  handleMessage(message: string) {
+  handleMessage(@Payload() message: string) {
     this.microserviceService.handleMessage(message);
+  }
+
+  @EventPattern('order.created')
+  handleOrderCreated(@Payload() payload: OrderEventPayload) {
+    this.microserviceService.handleOrderCreated(payload);
   }
 }
