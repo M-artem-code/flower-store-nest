@@ -66,6 +66,49 @@ export class FlowersService {
     });
   }
 
+  count() {
+    return this.prisma.flower.count();
+  }
+
+  findColors() {
+    return this.prisma.flower.findMany({
+      distinct: ['color'],
+      select: { color: true },
+      orderBy: { color: 'asc' },
+    });
+  }
+
+  findTop(limit = 5) {
+    return this.prisma.flower.findMany({
+      orderBy: { price: 'desc' },
+      take: limit,
+    });
+  }
+
+  findCheapest() {
+    return this.prisma.flower.findFirst({
+      orderBy: { price: 'asc' },
+    });
+  }
+
+  findMostExpensive() {
+    return this.prisma.flower.findFirst({
+      orderBy: { price: 'desc' },
+    });
+  }
+
+  findByColor(color: string) {
+    return this.prisma.flower.findMany({
+      where: {
+        color: {
+          equals: color,
+          mode: 'insensitive',
+        },
+      },
+      orderBy: { price: 'asc' },
+    });
+  }
+
   search(params: {
     name?: string;
     color?: string;

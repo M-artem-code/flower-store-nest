@@ -10,6 +10,40 @@ export class UsersService {
     return this.prisma.user.findMany();
   }
 
+  count() {
+    return this.prisma.user.count();
+  }
+
+  search(params: { email?: string; name?: string }) {
+    const { email, name } = params;
+    return this.prisma.user.findMany({
+      where: {
+        ...(email
+          ? {
+              email: {
+                contains: email,
+                mode: 'insensitive',
+              },
+            }
+          : {}),
+        ...(name
+          ? {
+              name: {
+                contains: name,
+                mode: 'insensitive',
+              },
+            }
+          : {}),
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async exists(id: number) {
+    const count = await this.prisma.user.count({ where: { id } });
+    return { id, exists: count > 0 };
+  }
+
   create(dto: UsersCreateDTO) {
     return this.prisma.user.create({
       data: dto,

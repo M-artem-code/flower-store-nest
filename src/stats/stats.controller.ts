@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, ParseIntPipe, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../conceptions/guard';
 import { StatsService } from './stats.service';
@@ -18,5 +18,17 @@ export class StatsController {
   @UseGuards(AuthGuard)
   colors() {
     return this.statsService.colors();
+  }
+
+  @Get('recent')
+  @UseGuards(AuthGuard)
+  recent(@Query('limit', new ParseIntPipe({ optional: true })) limit?: number) {
+    return this.statsService.recent(limit ?? 5);
+  }
+
+  @Get('prices')
+  @UseGuards(AuthGuard)
+  prices() {
+    return this.statsService.priceRanges();
   }
 }

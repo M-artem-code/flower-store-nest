@@ -12,6 +12,9 @@ async function bootstrap() {
     .setDescription('The Flowers API description')
     .setVersion('1.0')
     .addTag('flowers')
+    .addTag('users')
+    .addTag('stats')
+    .addTag('orders')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);

@@ -27,6 +27,42 @@ import { OptionalParseFloatPipe } from '../common/pipes/optional-parse-float.pip
 export class FlowersController {
   constructor(private readonly flowersService: FlowersService) {}
 
+  @Get('colors')
+  @UseGuards(AuthGuard)
+  colors() {
+    return this.flowersService.findColors();
+  }
+
+  @Get('count')
+  @UseGuards(AuthGuard)
+  count() {
+    return this.flowersService.count();
+  }
+
+  @Get('top')
+  @UseGuards(AuthGuard)
+  top(@Query('limit', new ParseIntPipe({ optional: true })) limit?: number) {
+    return this.flowersService.findTop(limit ?? 5);
+  }
+
+  @Get('cheapest')
+  @UseGuards(AuthGuard)
+  cheapest() {
+    return this.flowersService.findCheapest();
+  }
+
+  @Get('expensive')
+  @UseGuards(AuthGuard)
+  expensive() {
+    return this.flowersService.findMostExpensive();
+  }
+
+  @Get('by-color/:color')
+  @UseGuards(AuthGuard)
+  byColor(@Param('color') color: string) {
+    return this.flowersService.findByColor(color);
+  }
+
   @Get('search')
   @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
   @UseGuards(AuthGuard)

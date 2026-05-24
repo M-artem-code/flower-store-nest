@@ -47,4 +47,30 @@ export class AppController {
         'unknown',
     };
   }
+
+  @Get('ready')
+  async ready() {
+    try {
+      await this.prisma.$queryRaw`SELECT 1`;
+      return { ready: true };
+    } catch {
+      return { ready: false };
+    }
+  }
+
+  @Get('info')
+  info() {
+    return {
+      name: 'flower-store',
+      description: 'NestJS flower store API',
+      docs: '/docs',
+      apiPrefix: '/api',
+      endpoints: {
+        flowers: '/api/flowers',
+        users: '/api/users',
+        stats: '/api/stats',
+        orders: '/api/orders',
+      },
+    };
+  }
 }

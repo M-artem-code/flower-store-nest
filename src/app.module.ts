@@ -13,12 +13,14 @@ import { ChatGateway } from './websocket.gateway';
 import { UsersModule } from './users/users.module';
 import { StatsModule } from './stats/stats.module';
 import { OrdersModule } from './orders/orders.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    PrismaModule,
     FlowersModule,
     UsersModule,
     StatsModule,
